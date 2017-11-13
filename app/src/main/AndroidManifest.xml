@@ -22,14 +22,7 @@
         <activity android:name=".Main2ActivityLogin" />
         <activity android:name=".Main3ActivityUserProf" />
         <activity android:name=".Main4ActivitySignUp" />
-        <activity
-            android:name=".BaseActivity"
-            android:label="@string/title_activity_base"
-            android:theme="@style/AppTheme.NoActionBar" />
         <activity android:name=".Main5ActivitySettings" />
-        <activity
-            android:name=".SettingsActivity"
-            android:label="@string/title_activity_settings" />
         <activity
             android:name=".Main6ActivityDiscovery"
             android:label="@string/title_activity_main6_discovery"
