@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.example.mbikism.verb.Main2ActivityLogin"
+    android:background="@drawable/verbblue"
+    android:layout_margin="20dp">
+
+    <TextView
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content"
+    android:fontFamily="serif"
+    android:text="Log In"
+    android:id="@+id/verb"
+
+    android:gravity="center"
+
+    android:textAppearance="@style/TextAppearance.AppCompat.Large"
+    android:textColor="@android:color/holo_red_light"
+    android:textColorLink="?android:attr/colorActivatedHighlight"
+    android:textSize="20sp"
+    android:typeface="monospace"
+
+    android:layout_centerHorizontal="true"
+    android:layout_marginTop="20dp"
+    />
+
+    <EditText
+        android:id="@+id/loginEmail"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/loginPassword"
+        android:layout_alignParentStart="true"
+        android:layout_marginBottom="52dp"
+        android:ems="10"
+        android:gravity="center"
+        android:hint="Enter Email"
+        android:inputType="textEmailAddress" />
+
+    <EditText
+        android:id="@+id/loginPassword"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_centerVertical="true"
+        android:ems="10"
+        android:gravity="center"
+        android:hint="Enter Password"
+        android:inputType="textPassword"
+        tools:layout_editor_absoluteX="85dp"
+        tools:layout_editor_absoluteY="234dp" />
+
+    <Button
+        android:id="@+id/loginButton"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/loginPassword"
+        android:layout_marginTop="17dp"
+        android:backgroundTint="@android:color/holo_blue_light"
+        android:text="Log In"
+        android:textColor="@android:color/holo_red_light"
+        android:textSize="18sp" />
+
+    <Button
+        android:id="@+id/signupButton"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentStart="true"
+        android:layout_marginBottom="29dp"
+        android:text="Don't have an account? Create one here!"
+        android:textSize="12sp" />
+
+</RelativeLayout>
