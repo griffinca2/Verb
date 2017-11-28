@@ -36,7 +36,7 @@
         android:paddingEnd="24dp"
         android:paddingStart="24dp"
         android:paddingTop="16dp"
-        android:src="@drawable/me"
+        android:src="@drawable/user"
         app:layout_constraintBottom_toTopOf="@+id/changePic"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
