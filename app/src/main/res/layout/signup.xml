@@ -4,37 +4,51 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.example.mbikism.verb.Main4ActivitySignUp"
+    tools:context="com.example.mbikism.verb.SignUp"
     android:background="@drawable/verbblue"
     android:layout_margin="20dp">
 
     <TextView
+        android:id="@+id/verb"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_alignStart="@+id/signupLName"
+
+        android:layout_marginTop="22dp"
+
         android:fontFamily="serif"
-        android:text="Sign Up"
-        android:id="@+id/verb"
-
         android:gravity="center"
-
+        android:text="Sign Up"
         android:textAppearance="@style/TextAppearance.AppCompat.Large"
         android:textColor="@android:color/holo_red_light"
+
         android:textColorLink="?android:attr/colorActivatedHighlight"
         android:textSize="20sp"
-        android:typeface="monospace"
+        android:typeface="monospace" />
 
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="20dp"
-        />
     <EditText
-        android:id="@+id/signupName"
+        android:id="@+id/signupFName"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/signupLName"
+        android:layout_alignStart="@+id/signupLName"
+        android:ems="10"
+        android:gravity="center"
+        android:hint="Enter First Name"
+        android:inputType="text"
+        tools:layout_editor_absoluteX="85dp"
+        tools:layout_editor_absoluteY="234dp" />
+
+    <EditText
+        android:id="@+id/signupLName"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:layout_above="@+id/signupEmail"
-        android:layout_alignParentStart="true"
+        android:layout_alignParentEnd="true"
         android:ems="10"
         android:gravity="center"
-        android:hint="Enter Name"
+        android:hint="Enter Last Name"
         android:inputType="text"
         tools:layout_editor_absoluteX="85dp"
         tools:layout_editor_absoluteY="234dp" />
@@ -43,9 +57,8 @@
         android:id="@+id/signupEmail"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:layout_alignBottom="@+id/signupPassword"
-        android:layout_alignParentStart="true"
-        android:layout_marginBottom="52dp"
+        android:layout_above="@+id/signupPassword"
+        android:layout_centerHorizontal="true"
         android:ems="10"
         android:gravity="center"
         android:hint="Enter Email"
@@ -55,8 +68,9 @@
         android:id="@+id/signupPassword"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
+        android:layout_above="@+id/signupButton"
         android:layout_alignParentStart="true"
-        android:layout_centerVertical="true"
+        android:layout_marginBottom="69dp"
         android:ems="10"
         android:gravity="center"
         android:hint="Enter Password"
@@ -64,14 +78,26 @@
         tools:layout_editor_absoluteX="85dp"
         tools:layout_editor_absoluteY="234dp" />
 
+    <EditText
+        android:id="@+id/category"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/signupButton"
+        android:ems="10"
+        android:gravity="center"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentStart="true"
+        android:inputType="text"
+        android:layout_marginBottom="20dp"
+        android:hint="Please Enter 'Volunteer' or 'Organization'" />
+
 
     <Button
         android:id="@+id/signupButton"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
+        android:layout_above="@+id/loginButton"
         android:layout_alignParentStart="true"
-        android:layout_below="@+id/signupEmail"
-        android:layout_marginTop="11dp"
         android:backgroundTint="@android:color/holo_blue_light"
         android:text="Sign Up"
         android:textColor="@android:color/holo_red_light"
@@ -86,5 +112,4 @@
         android:layout_marginBottom="29dp"
         android:text="Already have an account? Log in here!"
         android:textSize="12sp" />
-
 </RelativeLayout>

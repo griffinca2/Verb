@@ -7,13 +7,13 @@ import android.widget.Button;
 import android.view.View.OnClickListener;
 import android.view.View;
 
-public class MainActivityWelcome extends AppCompatActivity {
+public class Welcome extends AppCompatActivity {
     Button takeAction;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.welcome);
         addListenerOnButton();
     }
 
@@ -22,7 +22,7 @@ public class MainActivityWelcome extends AppCompatActivity {
         takeAction.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View arg0) {
-                Intent intent = new Intent(MainActivityWelcome.this, Main2ActivityLogin.class);
+                Intent intent = new Intent(Welcome.this, Login.class);
                     startActivity(intent);
             }
         });

@@ -4,19 +4,21 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/v2"
-    tools:context="com.example.mbikism.verb.MainActivityWelcome">
+    tools:context="com.example.mbikism.verb.ViewResultsActivity">
 
-    <!--<TextView
-        android:layout_width="wrap_content"
+
+    <TextView
+        android:id="@+id/Q11"
+        android:layout_width="fill_parent"
         android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
         android:fontFamily="serif"
-        android:text="Verb"
-        android:id="@+id/verb"
+        android:gravity="center"
+        android:text="Congrats! You've completed the quiz!"
         android:textAppearance="@style/TextAppearance.AppCompat.Large"
-        android:textColor="@android:color/holo_red_light"
+        android:textColor="@android:color/black"
         android:textColorLink="?android:attr/colorActivatedHighlight"
-        android:textSize="145sp"
+        android:textSize="40sp"
         android:typeface="monospace"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
@@ -24,30 +26,24 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintHorizontal_bias="0.509"
         app:layout_constraintVertical_bias="0.265"
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:fontFamily="serif"
-        android:text="Take Action and Volunteer"
-        android:textColor="@android:color/holo_blue_light"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        />-->
+        tools:layout_editor_absoluteX="0dp"
+        tools:layout_editor_absoluteY="86dp" />
 
     <Button
-        android:id="@+id/button2"
+        android:id="@+id/VR1"
         android:layout_width="300dp"
         android:layout_height="wrap_content"
         android:backgroundTint="@android:color/holo_blue_light"
-        android:text="TAKE ACTION"
-        tools:text="TAKE ACTION"
-        android:textColor="@android:color/holo_red_light"
+        android:text="View Results"
+        android:textColor="@android:color/black"
         android:textSize="18sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintHorizontal_bias="0.509"
+        app:layout_constraintVertical_bias="0.475"
+        android:layout_centerHorizontal="true"
         />
 
 </android.support.constraint.ConstraintLayout>

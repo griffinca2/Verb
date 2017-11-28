@@ -8,13 +8,12 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.Button;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
-public class Main6ActivityDiscovery extends AppCompatActivity {
+public class DiscoverPage extends AppCompatActivity {
     private FirebaseAuth mAuth;
     FirebaseUser firebaseUser;
 
@@ -22,11 +21,24 @@ public class Main6ActivityDiscovery extends AppCompatActivity {
     //view objects
     private Button userProfile;
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main6);
-        //addListenerOnLogOut();
+        setContentView(R.layout.activity_discover_page);
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+
+        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
+        fab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
+                        .setAction("Action", null).show();
+            }
+        });
+
+
 
         //initializing firebase authentication object
         mAuth = FirebaseAuth.getInstance();
@@ -41,10 +53,10 @@ public class Main6ActivityDiscovery extends AppCompatActivity {
             //closing this activity
             finish();
             //starting login activity
-            startActivity(new Intent(this, Main2ActivityLogin.class));
+            startActivity(new Intent(this, Login.class));
 
             // Showing toast message.
-            Toast.makeText(Main6ActivityDiscovery.this, "Please Log in to continue", Toast.LENGTH_LONG).show();
+            Toast.makeText(DiscoverPage.this, "Please Log in to continue", Toast.LENGTH_LONG).show();
         }
 
         //getting current user
@@ -59,7 +71,7 @@ public class Main6ActivityDiscovery extends AppCompatActivity {
                 finish();
 
                 // Redirect to Login Activity after click on logout button.
-                Intent intent = new Intent(Main6ActivityDiscovery.this, Main3ActivityUserProf.class);
+                Intent intent = new Intent(DiscoverPage.this, ProfileOrg.class);
                 startActivity(intent);
             }
         });
@@ -71,7 +83,7 @@ public class Main6ActivityDiscovery extends AppCompatActivity {
             //closing activity
             finish();
             //starting login activity
-            startActivity(new Intent(this, Main3ActivityUserProf.class));
+            startActivity(new Intent(this, ProfileOrg.class));
         }
 
     }

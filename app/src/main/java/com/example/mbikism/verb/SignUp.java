@@ -6,11 +6,9 @@ import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -22,15 +20,21 @@ import com.google.firebase.auth.UserProfileChangeRequest;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
-public class Main4ActivitySignUp extends AppCompatActivity{
+public class SignUp extends AppCompatActivity{
     private Button login;
     private Button signup;
     private EditText signupEmail;
     private EditText signupPassword;
-    private EditText signupName;
+    private EditText cat;
+    private EditText signupFName;
+    private EditText signupLName;
+
     private String emailHolder;
     private String passwordHolder;
     private String nameHolder;
+    private String fName;
+    private String lName;
+    private String catStr;
     Boolean EditTextEmptyCheck;
 
     private FirebaseAuth mAuth;
@@ -38,18 +42,22 @@ public class Main4ActivitySignUp extends AppCompatActivity{
 
     private ProgressDialog progressDialog;
 
-    final FirebaseDatabase database = FirebaseDatabase.getInstance();
-    DatabaseReference ref = database.getReference("server/saving-data/fireblog");
+    private DatabaseReference database;
+    private DatabaseReference users;
+    private DatabaseReference volunteers;
+    private DatabaseReference organizations;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main4);
+        setContentView(R.layout.signup);
 
         //initializing views
         signupEmail = (EditText) findViewById(R.id.signupEmail);
         signupPassword = (EditText) findViewById(R.id.signupPassword);
-        signupName = (EditText) findViewById(R.id.signupName);
+        signupFName = (EditText) findViewById(R.id.signupFName);
+        signupLName = (EditText) findViewById(R.id.signupLName);
+        cat = (EditText) findViewById(R.id.category);
         login = (Button) findViewById(R.id.loginButton);
         signup = (Button) findViewById(R.id.signupButton);
 
@@ -58,13 +66,20 @@ public class Main4ActivitySignUp extends AppCompatActivity{
         //initializing firebase auth object
         mAuth = FirebaseAuth.getInstance();
 
+        //Database references
+        database = FirebaseDatabase.getInstance().getReference();
+        users = database.child("users");
+        volunteers = users.child("volunteers");
+        organizations = users.child("organizations");
+
+
         //if the objects getcurrentuser method is not null
         //means user is already logged in
         if(mAuth.getCurrentUser() != null){
             //close this activity
             finish();
             //opening profile activity
-            startActivity(new Intent(getApplicationContext(), Main3ActivityUserProf.class));
+            startActivity(new Intent(getApplicationContext(), ProfileOrg.class));
         }
 
         // Adding click listener to signup button.
@@ -78,7 +93,7 @@ public class Main4ActivitySignUp extends AppCompatActivity{
                 }
                 else {
                     // If  EditTextEmptyCheck == false then toast display on screen.
-                    Toast.makeText(Main4ActivitySignUp.this, "Please Fill All the Fields", Toast.LENGTH_LONG).show();
+                    Toast.makeText(SignUp.this, "Please Fill All the Fields", Toast.LENGTH_LONG).show();
                 }
             }
         });
@@ -90,7 +105,7 @@ public class Main4ActivitySignUp extends AppCompatActivity{
                 // Closing current activity.
                 finish();
                 // Opening the Main Activity .
-                Intent intent = new Intent(Main4ActivitySignUp.this, Main4ActivitySignUp.class);
+                Intent intent = new Intent(SignUp.this, Login.class);
                 startActivity(intent);
 
             }
@@ -105,7 +120,7 @@ public class Main4ActivitySignUp extends AppCompatActivity{
         // Getting value form Password's EditText and fill into PasswordHolder string variable.
         passwordHolder = signupPassword.getText().toString().trim();
         // Getting value form Name's EditText and fill into nameHolder string variable.
-        nameHolder = signupName.getText().toString().trim();
+        //nameHolder = signupName.getText().toString().trim();
         // Checking Both EditText is empty or not.
         if(TextUtils.isEmpty(emailHolder) || TextUtils.isEmpty(passwordHolder))
         {
@@ -121,6 +136,12 @@ public class Main4ActivitySignUp extends AppCompatActivity{
 
     // Creating login function.
     public void createAccount(){
+        fName = signupFName.getText().toString().trim();
+        lName = signupLName.getText().toString().trim();
+        catStr = cat.getText().toString().trim();
+        emailHolder = signupEmail.getText().toString().trim();
+        nameHolder = fName + " " + lName;
+
         // Setting up message in progressDialog.
         progressDialog.setMessage("Creating Account Please Wait..");
 
@@ -141,22 +162,53 @@ public class Main4ActivitySignUp extends AppCompatActivity{
                             if(!TextUtils.isEmpty(nameHolder)){
                                 UserProfileChangeRequest profileUpdates = new UserProfileChangeRequest.Builder()
                                         .setDisplayName(nameHolder).build();
-
                                 user.updateProfile(profileUpdates);
+                                addUserToDatabase(fName, lName, catStr, emailHolder, "");
                             }
+                            //addUserToDatabase(fName, lName, catStr, emailHolder);
                             // Closing the current Login Activity.
-                            finish();
                             // Opening the UserProfileActivity.
-                            Intent intent = new Intent(Main4ActivitySignUp.this, Main3ActivityUserProf.class);
-                            startActivity(intent);
+                            //Toast.makeText(SignUp.this, "Category: " + catStr, Toast.LENGTH_LONG).show();
+                            //Toast.makeText(SignUp.this, catStr.equals("Volunteer") + " ", Toast.LENGTH_LONG).show();
+                            if(catStr.equals("Volunteer")) {
+                                finish();
+                                Intent intent = new Intent(SignUp.this, q1.class);
+                                startActivity(intent);
+                            }
+                            else if(catStr.equals("Organization")){
+                                finish();
+                                Intent intent = new Intent(SignUp.this, OrgName.class);
+                                startActivity(intent);
+                            }
+                            else{
+                                Toast.makeText(SignUp.this, "Type of user not found. Please Enter 'Volunteer' or 'Organization'.", Toast.LENGTH_LONG).show();
+                            }
                         }
                         else {
                             // Hiding the progress dialog.
                             progressDialog.dismiss();
                             // Showing toast message when email or password not found in Firebase Online database.
-                            Toast.makeText(Main4ActivitySignUp.this, "Email or Password Not found, Please Try Again", Toast.LENGTH_LONG).show();
+                            Toast.makeText(SignUp.this, "Email or Password Not found, Please Try Again", Toast.LENGTH_LONG).show();
                         }
                     }
                 });
+    }
+
+
+    void addUserToDatabase(String fName, String lName, String category, String email, String birthday){
+        FirebaseUser user = mAuth.getCurrentUser();
+        String uid = user.getUid();
+        String info = " ";
+        String orgName = " ";
+
+        //Create user based on whether they are a volunteer or organization.
+        if(category.equals("Volunteer")) {
+            User newUser = new User(uid, fName, lName, category, email, birthday);
+            database.child("users").child("volunteers").child(uid).setValue(newUser);
+        }
+        else if(category.equals("Organization")) {
+            User newUser = new User(uid, category, email, orgName, info);
+            database.child("users").child("organizations").child(uid).setValue(newUser);
+        }
     }
 }
