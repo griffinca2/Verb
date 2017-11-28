@@ -7,6 +7,7 @@
     android:layout_height="match_parent"
     android:fitsSystemWindows="true"
     android:background="@drawable/verbblue"
+    android:id="@+id/cl"
     tools:context="com.example.mbikism.verb.DiscoverPage">
 
     <android.support.design.widget.AppBarLayout
@@ -55,6 +56,26 @@
         android:textColorLink="?android:attr/colorActivatedHighlight"
         android:textSize="20sp"
         android:typeface="monospace"
+
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="20dp"
+        />
+
+    <TextView
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:fontFamily="serif"
+        android:id="@+id/showNP"
+
+        android:gravity="center"
+
+        android:textAppearance="@style/TextAppearance.AppCompat.Large"
+        android:textColor="@android:color/holo_red_light"
+        android:textColorLink="?android:attr/colorActivatedHighlight"
+        android:textSize="20sp"
+        android:typeface="monospace"
+        app:layout_anchor="@+id/include"
+        app:layout_anchorGravity="center|center"
 
         android:layout_centerHorizontal="true"
         android:layout_marginTop="20dp"
