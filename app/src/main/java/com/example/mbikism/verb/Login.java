@@ -42,7 +42,9 @@ public class Login extends AppCompatActivity{
     private FirebaseAuth.AuthStateListener mAuthListener;
 
     private DatabaseReference database;
-    private DatabaseReference usersData;
+    private DatabaseReference users;
+
+    private FirebaseUser user;
 
 
     private ProgressDialog progressDialog;
@@ -66,7 +68,7 @@ public class Login extends AppCompatActivity{
 
         //Reference to database
         database = FirebaseDatabase.getInstance().getReference();
-        usersData = database.child("users");
+        users= database.child("users");
 
 
         //if the objects getcurrentuser method is not null
@@ -75,36 +77,9 @@ public class Login extends AppCompatActivity{
             //close this activity
 
             //Oringial code.....
-            /**finish();
+            finish();
             //opening profile activity
-            startActivity(new Intent(getApplicationContext(), ProfileOrg.class));**/
-
-
-
-            FirebaseUser currUser = mAuth.getCurrentUser();
-            database.child("users").child(currUser.getUid()).addValueEventListener(new ValueEventListener() {
-                @Override
-                public void onDataChange(DataSnapshot dataSnapshot) {
-                    for (DataSnapshot snapshot: dataSnapshot.getChildren()) {
-                        User u = snapshot.getValue(User.class);
-                        if(u != null) {
-                            if (u.category.equals("Organization")) {
-                                System.out.println("Found Organization");
-                            } else if (u.category.equals("Volunteer")) {
-                                System.out.println("Found Volunteer");
-                            }
-                        }
-                        else{
-                            Toast.makeText(Login.this, "User is null. ", Toast.LENGTH_LONG).show();
-                        }
-                    }
-                }
-                    @Override
-                    public void onCancelled (DatabaseError error){
-                        // Failed to read value
-                        Toast.makeText(Login.this, "Database Error ", Toast.LENGTH_LONG).show();
-                    }
-            });
+            startActivity(new Intent(getApplicationContext(), ProfileOrg.class));
         }
 
         // Adding click listener to login button.
@@ -115,7 +90,12 @@ public class Login extends AppCompatActivity{
                 if(EditTextEmptyCheck) {
                     // If  EditTextEmptyCheck == true then login function called.
                     // Opening the Main Activity .
+
+
                     LoginFunction();
+                    //Intent intent = new Intent(Login.this, ProfileVol.class);
+                    //startActivity(intent);
+
                 }
                 else {
                     // If  EditTextEmptyCheck == false then toast display on screen.
@@ -138,11 +118,6 @@ public class Login extends AppCompatActivity{
         });
     }
 
-
-    public void accessData(@NotNull final Callback callback){
-
-    }
-
     public void CheckEditTextIsEmptyOrNot(){
 
         // Getting value form Email's EditText and fill into EmailHolder string variable.
@@ -159,33 +134,6 @@ public class Login extends AppCompatActivity{
             // If any of EditText is empty then set value as true.
             EditTextEmptyCheck = true ;
         }
-    }
-
-    public void setLogin(FirebaseUser fuser){
-        FirebaseUser currUser = mAuth.getCurrentUser();
-        database.child("users").child(currUser.getUid()).addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                for (DataSnapshot snapshot: dataSnapshot.getChildren()) {
-                    User u = snapshot.getValue(User.class);
-                    if(u != null) {
-                        if (u.category.equals("Organization")) {
-                            System.out.println("Found Organization");
-                        } else if (u.category.equals("Volunteer")) {
-                            System.out.println("Found Volunteer");
-                        }
-                    }
-                    else{
-                        Toast.makeText(Login.this, "User is null. ", Toast.LENGTH_LONG).show();
-                    }
-                }
-            }
-            @Override
-            public void onCancelled (DatabaseError error){
-                // Failed to read value
-                Toast.makeText(Login.this, "Database Error ", Toast.LENGTH_LONG).show();
-            }
-        });
     }
 
     // Creating login function.
@@ -207,33 +155,14 @@ public class Login extends AppCompatActivity{
                             progressDialog.dismiss();
                             // Closing the current Login Activity.
                             FirebaseUser currUser = mAuth.getCurrentUser();
-                            database.child("users").child(currUser.getUid()).addValueEventListener(new ValueEventListener() {
-                                @Override
-                                public void onDataChange(DataSnapshot dataSnapshot) {
-                                    for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
-                                        User u = snapshot.getValue(User.class);
-                                        if (u != null) {
-                                            if (u.category.equals("Organization")) {
-                                                System.out.println("Found Organization");
-                                                Toast.makeText(Login.this, "Organization ", Toast.LENGTH_LONG).show();
-                                            } else if (u.category.equals("Volunteer")) {
-                                                System.out.println("Found Volunteer");
-                                                Toast.makeText(Login.this, "UVolunteer ", Toast.LENGTH_LONG).show();
-                                            }
-                                        } else {
-                                            Toast.makeText(Login.this, "User is null. ", Toast.LENGTH_LONG).show();
-                                        }
-                                    }
-                                }
-
-                                @Override
-                                public void onCancelled(DatabaseError error) {
-                                    // Failed to read value
-                                    Toast.makeText(Login.this, "Database Error ", Toast.LENGTH_LONG).show();
-                                }
-                            });
+                            Intent intent = new Intent(Login.this, ProfileVol.class);
+                            startActivity(intent);
+                        }
+                        else{
+                            Toast.makeText(Login.this, "Authentication failed.", Toast.LENGTH_SHORT).show();
                         }
                     }
                 });
     }
+
 }

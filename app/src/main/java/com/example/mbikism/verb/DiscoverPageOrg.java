@@ -13,7 +13,7 @@ import android.widget.Toast;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
-public class DiscoverPage extends AppCompatActivity {
+public class DiscoverPageOrg extends AppCompatActivity {
     private FirebaseAuth mAuth;
     FirebaseUser firebaseUser;
 
@@ -25,7 +25,7 @@ public class DiscoverPage extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_discover_page);
+        setContentView(R.layout.activity_discover_page_org);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         //setSupportActionBar(toolbar);
 
@@ -56,7 +56,7 @@ public class DiscoverPage extends AppCompatActivity {
             startActivity(new Intent(this, Login.class));
 
             // Showing toast message.
-            Toast.makeText(DiscoverPage.this, "Please Log in to continue", Toast.LENGTH_LONG).show();
+            Toast.makeText(DiscoverPageOrg.this, "Please Log in to continue", Toast.LENGTH_LONG).show();
         }
 
         //getting current user
@@ -71,7 +71,7 @@ public class DiscoverPage extends AppCompatActivity {
                 finish();
 
                 // Redirect to Login Activity after click on logout button.
-                Intent intent = new Intent(DiscoverPage.this, ProfileVol.class);
+                Intent intent = new Intent(DiscoverPageOrg.this, ProfileOrg.class);
                 startActivity(intent);
             }
         });
@@ -83,7 +83,7 @@ public class DiscoverPage extends AppCompatActivity {
             //closing activity
             finish();
             //starting login activity
-            startActivity(new Intent(this, ProfileVol.class));
+            startActivity(new Intent(this, ProfileOrg.class));
         }
 
     }

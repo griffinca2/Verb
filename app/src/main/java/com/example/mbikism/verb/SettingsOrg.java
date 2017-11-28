@@ -58,6 +58,8 @@ public class SettingsOrg extends AppCompatActivity implements View.OnClickListen
     private DatabaseReference database;
     private DatabaseReference users;
 
+    private FirebaseUser user;
+
     private Uri imageUri2;
     private StorageReference store;
 
@@ -104,36 +106,31 @@ public class SettingsOrg extends AppCompatActivity implements View.OnClickListen
 
         //getting current user
         FirebaseUser user = mAuth.getCurrentUser();
-        database = FirebaseDatabase.getInstance().getReference().child("user");
+        database = FirebaseDatabase.getInstance().getReference();
 
-        //displaying logged in user name
-        getInfo();
-        //email.setText(user.getEmail());
-        //orgNameView.setText(orgName);
-        //about.setText(aboutText);
+        //displaying current info
         displayUpdates();
 
         // Adding click listener on logout button.
         submit.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View view) {
-                            //Update the user profile
-                            changeEmail();
-                            changeName();
-                            changeAbout();
-                            displayUpdates();
-                            //Toast.makeText(SettingsOrg.this, "Name updated: " + orgName, Toast.LENGTH_LONG).show();
-            // Finishing current User Profile activity.
-            finish();
-            //Update user info and redirect to user profile
-            Intent intent = new Intent(SettingsOrg.this, ProfileOrg.class);
-            startActivity(intent);
-            // Showing toast message on logout.
-            Toast.makeText(SettingsOrg.this, "Settings Updated Successfully.", Toast.LENGTH_LONG).show();
-                    }
-                });
+            @Override
+            public void onClick(View view) {
+                //Update the user profile
+                changeEmail();
+                changeName();
+                changeAbout();
+                // Finishing current User Profile activity.
+                finish();
+                //Update user info and redirect to user profile
+                Intent intent = new Intent(SettingsOrg.this, ProfileOrg.class);
+                startActivity(intent);
+                // Showing toast message on logout.
+                Toast.makeText(SettingsOrg.this, "Settings Updated Successfully.", Toast.LENGTH_LONG).show();
 
-                // Adding click listener on logout button.
+            }
+        });
+
+       // Adding click listener on logout button.
         back.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View view) {
@@ -156,7 +153,7 @@ public class SettingsOrg extends AppCompatActivity implements View.OnClickListen
                         }
                 });
 
-                changePic.setOnClickListener(new View.OnClickListener() {
+        changePic.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View view) {
                             updatePic();
@@ -165,54 +162,22 @@ public class SettingsOrg extends AppCompatActivity implements View.OnClickListen
                             // Opening the Main Activity .
                             //Intent intent = new Intent(SettingsVol.this, Discovery.class);
                             //startActivity(intent);
-                        }
+                }
                 });
         }
-
-    public void displayUpdates(){
-        FirebaseUser user = mAuth.getCurrentUser();
-        getInfo();
-        email.setText(user.getEmail());
-
-        FirebaseUser fuser = mAuth.getCurrentUser();
-        if (fuser != null) {
-            users.child(fuser.getUid()).addValueEventListener(new ValueEventListener() {
-                @Override
-                public void onDataChange(DataSnapshot dataSnapshot) {
-                    if (dataSnapshot != null) {
-                        //User user= dataSnapshot.getValue(User.class);
-                        User user1 = dataSnapshot.getValue(User.class);
-                        if (user1 != null) {
-                            Toast.makeText(SettingsOrg.this, user1.orgName, Toast.LENGTH_LONG).show();
-                            orgNameView.setText(user1.orgName);
-                            Toast.makeText(SettingsOrg.this, user1.about, Toast.LENGTH_LONG).show();
-                            aboutView.setText(user1.about);
-                        }
-                    }
-                }
-
-                @Override
-                public void onCancelled(DatabaseError firebaseError) {
-
-                }
-            });
-        }
-    }
 
     public void changeName(){
         //update the user info
         FirebaseUser user = mAuth.getCurrentUser();
         //store the strings from email and name into variables
         nameHolder = orgNameView.getText().toString().trim();
-        Toast.makeText(SettingsOrg.this, nameHolder, Toast.LENGTH_LONG).show();
+        //Toast.makeText(SettingsOrg.this, nameHolder, Toast.LENGTH_LONG).show();
 
         //Update the profile with the new information
         UserProfileChangeRequest profileUpdates = new UserProfileChangeRequest.Builder()
                 .setDisplayName(nameHolder).build();
         user.updateProfile(profileUpdates);
         users.child("organizations").child(user.getUid()).child("orgName").setValue(nameHolder);
-        //Toast.makeText(SettingsVol.this, user.getDisplayName(), Toast.LENGTH_LONG).show();
-
     }
 
     public void changeEmail(){
@@ -234,7 +199,7 @@ public class SettingsOrg extends AppCompatActivity implements View.OnClickListen
 
     public void changeAbout(){
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-        Toast.makeText(SettingsOrg.this, aboutHolder, Toast.LENGTH_LONG).show();
+       // Toast.makeText(SettingsOrg.this, aboutHolder, Toast.LENGTH_LONG).show();
         aboutHolder = aboutView.getText().toString().trim();
         users.child("organizations").child(user.getUid()).child("about").setValue(aboutHolder);
     }
@@ -269,7 +234,7 @@ public class SettingsOrg extends AppCompatActivity implements View.OnClickListen
             //closing activity
             finish();
             //starting login activity
-            startActivity(new Intent(this, SettingsVol.class));
+            startActivity(new Intent(this, SettingsOrg.class));
         }
         else if(view == back){
             finish();
@@ -284,44 +249,25 @@ public class SettingsOrg extends AppCompatActivity implements View.OnClickListen
         }
     }
 
-    public void getInfo() {
-        FirebaseUser fuser = mAuth.getCurrentUser();
-        if (fuser != null) {
-            users.child(fuser.getUid()).addValueEventListener(new ValueEventListener() {
-                @Override
-                public void onDataChange(DataSnapshot dataSnapshot) {
-                    if (dataSnapshot != null) {
-                        //User user= dataSnapshot.getValue(User.class);
-                        User user1 = dataSnapshot.getValue(User.class);
-                        if (user1 != null) {
-                            String category = user1.category;
-                            String name = user1.orgName;
-                            String a = user1.about;
-                            //Toast.makeText(SettingsOrg.this, "Category" + category, Toast.LENGTH_LONG).show();
-                            setCat();
-                            getName(name);
-                            getAbout(a);
-                        }
-                    }
+    public void displayUpdates(){
+        user = mAuth.getCurrentUser();
+        email.setText(user.getEmail());
+        ValueEventListener eventListener = new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                User user1 = dataSnapshot.getValue(User.class);
+                if (user1 == null) {
+                    Toast.makeText(SettingsOrg.this, "User is unexpectedly null.", Toast.LENGTH_LONG).show();
+                } else {
+                    orgNameView.setText(user1.orgName);
+                    aboutView.setText(user1.about);
                 }
+            }
+            @Override
+            public void onCancelled(DatabaseError firebaseError) {}
+        };
+        users.child("organizations").child(user.getUid()).addListenerForSingleValueEvent(eventListener);
 
-                @Override
-                public void onCancelled(DatabaseError firebaseError) {
-
-                }
-            });
-        }
-    }
-
-    public void setCat(){
-        cat = 0;
-    }
-
-    public String getName(String name) {
-        return name;
-    }
-    public String getAbout(String a) {
-        return a;
     }
 }
 

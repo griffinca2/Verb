@@ -6,4 +6,5 @@ package com.example.mbikism.verb;
 
 public final class Count {
     static int allCount;
+    static int npCount;
 }

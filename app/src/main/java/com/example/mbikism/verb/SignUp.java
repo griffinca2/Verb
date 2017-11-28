@@ -79,7 +79,7 @@ public class SignUp extends AppCompatActivity{
             //close this activity
             finish();
             //opening profile activity
-            startActivity(new Intent(getApplicationContext(), ProfileOrg.class));
+            startActivity(new Intent(getApplicationContext(), ProfileVol.class));
         }
 
         // Adding click listener to signup button.
@@ -159,25 +159,36 @@ public class SignUp extends AppCompatActivity{
                             progressDialog.dismiss();
 
                             FirebaseUser user = mAuth.getCurrentUser();
-                            if(!TextUtils.isEmpty(nameHolder)){
+                            /**if(!TextUtils.isEmpty(nameHolder)){
                                 UserProfileChangeRequest profileUpdates = new UserProfileChangeRequest.Builder()
                                         .setDisplayName(nameHolder).build();
                                 user.updateProfile(profileUpdates);
                                 addUserToDatabase(fName, lName, catStr, emailHolder, "");
-                            }
+                            }**/
                             //addUserToDatabase(fName, lName, catStr, emailHolder);
                             // Closing the current Login Activity.
                             // Opening the UserProfileActivity.
                             //Toast.makeText(SignUp.this, "Category: " + catStr, Toast.LENGTH_LONG).show();
                             //Toast.makeText(SignUp.this, catStr.equals("Volunteer") + " ", Toast.LENGTH_LONG).show();
                             if(catStr.equals("Volunteer")) {
+                                if(!TextUtils.isEmpty(nameHolder)){
+                                    UserProfileChangeRequest profileUpdates = new UserProfileChangeRequest.Builder()
+                                            .setDisplayName(nameHolder).build();
+                                    user.updateProfile(profileUpdates);
+                                    addUserToDatabase(fName, lName, catStr, emailHolder, "");
+                                }
+
                                 finish();
                                 Intent intent = new Intent(SignUp.this, q1.class);
                                 startActivity(intent);
                             }
                             else if(catStr.equals("Organization")){
+                                if(!TextUtils.isEmpty(nameHolder)){
+                                    addUserToDatabase(fName, lName, catStr, emailHolder, "");
+                                }
+
                                 finish();
-                                Intent intent = new Intent(SignUp.this, OrgName.class);
+                                Intent intent = new Intent(SignUp.this, nq1.class);
                                 startActivity(intent);
                             }
                             else{
@@ -203,11 +214,11 @@ public class SignUp extends AppCompatActivity{
 
         //Create user based on whether they are a volunteer or organization.
         if(category.equals("Volunteer")) {
-            User newUser = new User(uid, fName, lName, category, email, birthday);
+            User newUser = new User(uid, fName, lName, category, email, birthday, 0);
             database.child("users").child("volunteers").child(uid).setValue(newUser);
         }
         else if(category.equals("Organization")) {
-            User newUser = new User(uid, category, email, orgName, info);
+            User newUser = new User(uid, fName, lName, category, email, orgName, info, 0);
             database.child("users").child("organizations").child(uid).setValue(newUser);
         }
     }

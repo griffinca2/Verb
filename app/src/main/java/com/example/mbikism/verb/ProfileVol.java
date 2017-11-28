@@ -20,15 +20,12 @@ import com.google.firebase.database.ValueEventListener;
 
 public class ProfileVol extends AppCompatActivity implements View.OnClickListener{
     private FirebaseAuth mAuth;
-    FirebaseUser firebaseUser;
-
 
     //view objects
     private TextView userEmail;
     private Button logout;
     private Button discovery;
     private Button retakeQuiz;
-    //private ImageButton settings;
     private ImageButton settings;
     private TextView name;
     private TextView birthday;
@@ -36,8 +33,7 @@ public class ProfileVol extends AppCompatActivity implements View.OnClickListene
     private DatabaseReference database;
     private DatabaseReference users;
 
-    private int cat;
-    private String fullName;
+    FirebaseUser user;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -60,6 +56,8 @@ public class ProfileVol extends AppCompatActivity implements View.OnClickListene
         database = FirebaseDatabase.getInstance().getReference();
         users = database.child("users");
 
+        //fuser = mAuth.getCurrentUser();
+
         //if the user is not logged in that means current user will return null
         if(mAuth.getCurrentUser() == null){
             //closing this activity
@@ -72,11 +70,10 @@ public class ProfileVol extends AppCompatActivity implements View.OnClickListene
         }
 
         //getting current user
-        FirebaseUser user = mAuth.getCurrentUser();
+        user = mAuth.getCurrentUser();
 
-        getInfo();
         //display current information
-        displayUpdates();
+        displayUpdates(user);
 
         // Adding click listener on logout button.
         logout.setOnClickListener(new View.OnClickListener() {
@@ -99,7 +96,7 @@ public class ProfileVol extends AppCompatActivity implements View.OnClickListene
             }
         });
 
-        // Adding click listener to Sign up button.
+        // Adding click listener to Settings button.
         settings.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -134,39 +131,6 @@ public class ProfileVol extends AppCompatActivity implements View.OnClickListene
         });
     }
 
-    public void getInfo(){
-        FirebaseUser user = mAuth.getCurrentUser();
-        users.child(user.getUid()).addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                if(dataSnapshot!=null){
-                    //User user= dataSnapshot.getValue(User.class);
-                    User user1 = dataSnapshot.getValue(User.class);
-                    if(user1 != null) {
-                        String category = user1.category;
-                        String fName = user1.firstName;
-                        String lName = user1.lastName;
-                        setCat(category);
-                        setName(fName, lName);
-                    }
-                }
-            }
-            @Override
-            public void onCancelled(DatabaseError firebaseError) {
-
-            }
-        });
-    }
-
-    public void setCat(String category){
-        cat = 1;
-    }
-
-    public void setName(String fName, String lName) {
-
-        fullName = fName + " " + lName;
-    }
-
     public void onClick(View view) {
         //if logout is pressed
         if(view == logout){
@@ -192,28 +156,30 @@ public class ProfileVol extends AppCompatActivity implements View.OnClickListene
         }
     }
 
-    public void displayUpdates(){
-        FirebaseUser user = mAuth.getCurrentUser();
-        getInfo();
-        userEmail.setText(user.getEmail());
-
-        FirebaseUser fuser = mAuth.getCurrentUser();
-        if (fuser != null) {
-            users.child(fuser.getUid()).addValueEventListener(new ValueEventListener() {
+    public void displayUpdates(FirebaseUser u){
+        if(u != null) {
+            //user = mAuth.getCurrentUser();
+            userEmail.setText(u.getEmail());
+            //name.setText(user.getDisplayName());
+            ValueEventListener eventListener = new ValueEventListener() {
                 @Override
                 public void onDataChange(DataSnapshot dataSnapshot) {
-                    if (dataSnapshot != null) {
-                        User user1 = dataSnapshot.getValue(User.class);
-                        if (user1 != null) {
-                            name.setText(user1.firstName + " " + user1.lastName);
-                            birthday.setText(user1.birthday);
-                        }
+                    User user1 = dataSnapshot.getValue(User.class);
+                    if (user1 == null) {
+                        Toast.makeText(ProfileVol.this, "User is unexpectedly null.", Toast.LENGTH_LONG).show();
+                    } else {
+                        birthday.setText(user1.birthday);
+                        name.setText(user1.firstName + " " + user1.lastName);
                     }
                 }
+
                 @Override
-                public void onCancelled(DatabaseError firebaseError) {}
-            });
+                public void onCancelled(DatabaseError firebaseError) {
+                }
+            };
+            users.child("volunteers").child(u.getUid()).addListenerForSingleValueEvent(eventListener);
         }
+
     }
 
 }

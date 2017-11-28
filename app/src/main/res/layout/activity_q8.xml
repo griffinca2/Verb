@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@drawable/verbblue"
     tools:context="com.example.mbikism.verb.q8">
 
     <TextView
@@ -20,18 +21,17 @@
         android:textSize="20sp"
         android:typeface="monospace"
         app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintHorizontal_bias="0.509"
-        app:layout_constraintVertical_bias="0.265"
-        tools:layout_editor_absoluteX="0dp"
-        tools:layout_editor_absoluteY="86dp" />
+        app:layout_constraintVertical_bias="0.121" />
 
     <Button
         android:id="@+id/QEight1"
         android:layout_width="300dp"
         android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
         android:backgroundTint="@android:color/holo_blue_light"
         android:text="Come up with a strategy to solve the problem immediately"
         android:textColor="@android:color/black"
@@ -40,14 +40,13 @@
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintHorizontal_bias="0.509"
-        app:layout_constraintVertical_bias="0.365"
-        android:layout_centerHorizontal="true"
-        />
+        app:layout_constraintVertical_bias="0.29" />
+
     <Button
         android:id="@+id/QEight2"
         android:layout_width="300dp"
         android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
         android:backgroundTint="@android:color/holo_blue_light"
         android:text="Gather information to try and find out what caused the problem"
         android:textColor="@android:color/black"
@@ -56,14 +55,13 @@
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintHorizontal_bias="0.509"
-        app:layout_constraintVertical_bias="0.465"
-        android:layout_centerHorizontal="true"
-        />
+        app:layout_constraintVertical_bias="0.482" />
+
     <Button
         android:id="@+id/QEight3"
         android:layout_width="300dp"
-        android:layout_height="wrap_content"
+        android:layout_height="85dp"
+        android:layout_centerHorizontal="true"
         android:backgroundTint="@android:color/holo_blue_light"
         android:text="Visualize the problem, and how you may be able to solve it"
         android:textColor="@android:color/black"
@@ -72,14 +70,13 @@
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintHorizontal_bias="0.509"
-        app:layout_constraintVertical_bias="0.565"
-        android:layout_centerHorizontal="true"
-        />
+        app:layout_constraintVertical_bias="0.669" />
+
     <Button
         android:id="@+id/QEight4"
         android:layout_width="300dp"
-        android:layout_height="wrap_content"
+        android:layout_height="62dp"
+        android:layout_centerHorizontal="true"
         android:backgroundTint="@android:color/holo_blue_light"
         android:text="Figure out the details of the problem"
         android:textColor="@android:color/black"
@@ -88,14 +85,13 @@
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintHorizontal_bias="0.509"
-        app:layout_constraintVertical_bias="0.665"
-        android:layout_centerHorizontal="true"
-        />
+        app:layout_constraintVertical_bias="0.806" />
+
     <Button
         android:id="@+id/QEight5"
         android:layout_width="300dp"
         android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
         android:backgroundTint="@android:color/holo_blue_light"
         android:text="Ask others for help"
         android:textColor="@android:color/black"
@@ -104,10 +100,7 @@
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintHorizontal_bias="0.509"
-        app:layout_constraintVertical_bias="0.765"
-        android:layout_centerHorizontal="true"
-        />
+        app:layout_constraintVertical_bias="0.896" />
 
 
 </android.support.constraint.ConstraintLayout>

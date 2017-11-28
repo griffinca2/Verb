@@ -10,8 +10,11 @@ import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 
 public class OrgName extends AppCompatActivity implements View.OnClickListener{
@@ -28,8 +31,7 @@ public class OrgName extends AppCompatActivity implements View.OnClickListener{
     private DatabaseReference database;
     private DatabaseReference users;
 
-    private int cat;
-    private String orgName = "";
+    private FirebaseUser user;
 
 
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,7 +43,7 @@ public class OrgName extends AppCompatActivity implements View.OnClickListener{
 
 
         //initializing views
-        name = (TextView) findViewById(R.id.orgName);
+        name = (TextView) findViewById(R.id.name);
         cont= (Button) findViewById(R.id.buttonCont);
         back = (Button) findViewById(R.id.buttonBack);
 
@@ -57,7 +59,7 @@ public class OrgName extends AppCompatActivity implements View.OnClickListener{
         }
 
         //getting current user
-        FirebaseUser user = mAuth.getCurrentUser();
+        user = mAuth.getCurrentUser();
 
         //adding listener to button
         cont.setOnClickListener(new View.OnClickListener() {
@@ -87,26 +89,9 @@ public class OrgName extends AppCompatActivity implements View.OnClickListener{
         });
     }
 
-    public void setName(){
-        FirebaseUser user = mAuth.getCurrentUser();
-        /**users.child(user.getUid()).addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                if(dataSnapshot!= null){
-                    //User user= dataSnapshot.getValue(User.class);
-                    User user1 = dataSnapshot.getValue(User.class);
-                    FirebaseUser user = mAuth.getCurrentUser();
-                    String orgname = name.getText().toString().trim();
-                    if(user1 != null) {
-                        users.child(user.getUid()).child("orgName").setValue(orgname);
-                    }
-                }
-            }
-            @Override
-            public void onCancelled(DatabaseError firebaseError) {
 
-            }
-        });**/
+    public void setName(){
+        user = mAuth.getCurrentUser();
         if(name != null) {
             String orgname = name.getText().toString().trim();
             Toast.makeText(OrgName.this, orgname, Toast.LENGTH_LONG).show();
@@ -114,7 +99,6 @@ public class OrgName extends AppCompatActivity implements View.OnClickListener{
                 users.child("organizations").child(user.getUid()).child("orgName").setValue(orgname);
             }
         }
-
     }
 
     public void onClick(View view) {

@@ -7,7 +7,7 @@
     android:layout_height="match_parent"
     android:fitsSystemWindows="true"
     android:background="@drawable/verbblue"
-    tools:context="com.example.mbikism.verb.DiscoverPage">
+    tools:context="com.example.mbikism.verb.DiscoverPageOrg">
 
     <android.support.design.widget.AppBarLayout
         android:id="@+id/app_bar"

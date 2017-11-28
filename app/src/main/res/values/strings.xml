@@ -218,4 +218,5 @@
     <string name="pref_title_vibrate">Vibrate</string>
     <string name="title_activity_main6_discovery">Main6ActivityDiscovery</string>
     <string name="large_text">Large Text</string>
+    <string name="title_activity_results">Results</string>
 </resources>

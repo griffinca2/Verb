@@ -5,16 +5,16 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/verbblue"
-    tools:context="com.example.mbikism.verb.q6">
+    tools:context="com.example.mbikism.verb.nq3">
 
     <TextView
-        android:id="@+id/Q6"
+        android:id="@+id/N3"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
         android:fontFamily="serif"
         android:gravity="center"
-        android:text="Which item would you prefer to receive as a gift?"
+        android:text="What services does the organization offer?"
         android:textAppearance="@style/TextAppearance.AppCompat.Large"
         android:textColor="@android:color/black"
         android:textColorLink="?android:attr/colorActivatedHighlight"
@@ -30,11 +30,11 @@
         tools:layout_editor_absoluteY="86dp" />
 
     <Button
-        android:id="@+id/QSix1"
+        android:id="@+id/q3n1"
         android:layout_width="300dp"
         android:layout_height="wrap_content"
         android:backgroundTint="@android:color/holo_blue_light"
-        android:text="Money"
+        android:text="Free animal clinic"
         android:textColor="@android:color/black"
         android:textSize="18sp"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -46,11 +46,11 @@
         android:layout_centerHorizontal="true"
         />
     <Button
-        android:id="@+id/QSix2"
+        android:id="@+id/q3n2"
         android:layout_width="300dp"
         android:layout_height="wrap_content"
         android:backgroundTint="@android:color/holo_blue_light"
-        android:text="A pet"
+        android:text="After-school programs"
         android:textColor="@android:color/black"
         android:textSize="18sp"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -62,11 +62,11 @@
         android:layout_centerHorizontal="true"
         />
     <Button
-        android:id="@+id/QSix3"
+        android:id="@+id/q3n3"
         android:layout_width="300dp"
         android:layout_height="wrap_content"
         android:backgroundTint="@android:color/holo_blue_light"
-        android:text="A book"
+        android:text="Community clean-up"
         android:textColor="@android:color/black"
         android:textSize="18sp"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -78,11 +78,11 @@
         android:layout_centerHorizontal="true"
         />
     <Button
-        android:id="@+id/QSix4"
+        android:id="@+id/q3n4"
         android:layout_width="300dp"
         android:layout_height="wrap_content"
         android:backgroundTint="@android:color/holo_blue_light"
-        android:text="Food"
+        android:text="Can food drive"
         android:textColor="@android:color/black"
         android:textSize="18sp"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -94,11 +94,11 @@
         android:layout_centerHorizontal="true"
         />
     <Button
-        android:id="@+id/QSix5"
+        android:id="@+id/q3n5"
         android:layout_width="300dp"
         android:layout_height="wrap_content"
         android:backgroundTint="@android:color/holo_blue_light"
-        android:text="A plant"
+        android:text="Other"
         android:textColor="@android:color/black"
         android:textSize="18sp"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -109,5 +109,4 @@
         app:layout_constraintVertical_bias="0.765"
         android:layout_centerHorizontal="true"
         />
-
 </android.support.constraint.ConstraintLayout>

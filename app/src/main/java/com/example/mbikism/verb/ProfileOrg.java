@@ -18,35 +18,23 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
-import static com.google.android.gms.internal.zzbco.NULL;
-
 public class ProfileOrg extends AppCompatActivity implements View.OnClickListener{
     private FirebaseAuth mAuth;
-    FirebaseUser firebaseUser;
-
 
     //view objects
     private TextView userEmail;
     private Button logout;
     private Button discovery;
     private Button retakeQuiz;
-    //private ImageButton settings;
     private ImageButton settings;
-    private TextView orgNameView;
+    private TextView name;
     private TextView aboutView;
+    private String about;
 
     private DatabaseReference database;
     private DatabaseReference users;
-    private DatabaseReference volunteers;
-    private DatabaseReference organizations;
 
-    private int cat;
-    private String orgName = "";
-    private String fName;
-    private String lNamel;
-    private String fullName;
-    private String aboutText;
-
+    private FirebaseUser user;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -56,23 +44,21 @@ public class ProfileOrg extends AppCompatActivity implements View.OnClickListene
         //initializing firebase authentication object
         mAuth = FirebaseAuth.getInstance();
 
-
         //initializing views
         userEmail = (TextView) findViewById(R.id.userEmail);
-        orgNameView = (TextView) findViewById(R.id.orgName);
+        name = (TextView) findViewById(R.id.orgName);
         logout = (Button) findViewById(R.id.buttonLogout);
         discovery = (Button) findViewById(R.id.discovery);
         retakeQuiz = (Button) findViewById(R.id.buttonRetake);
         settings = (ImageButton) findViewById(R.id.buttonSettings);
+        aboutView = (TextView) findViewById(R.id.about);
 
         //Reference to database
         database = FirebaseDatabase.getInstance().getReference();
         users = database.child("users");
-        volunteers = users.child("volunteers");
-        organizations = users.child("organizations");
 
-        //if the user is not logged in
-        //that means current user will return null
+
+        //if the user is not logged in that means current user will return null
         if(mAuth.getCurrentUser() == null){
             //closing this activity
             finish();
@@ -84,24 +70,22 @@ public class ProfileOrg extends AppCompatActivity implements View.OnClickListene
         }
 
         //getting current user
-        FirebaseUser user = mAuth.getCurrentUser();
+        user = mAuth.getCurrentUser();
 
-        //displaying logged in user name
-        displayUpdates();
-        //userEmail.setText(user.getEmail());
-        //getInfo();
-        //name.setText(orgName);
+        //display current information
+        displayUpdates(user);
 
-
-        //adding listener to button
         // Adding click listener on logout button.
         logout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+
                 // Destroying login season.
                 mAuth.signOut();
+
                 // Finishing current User Profile activity.
                 finish();
+
                 // Redirect to Login Activity after click on logout button.
                 Intent intent = new Intent(ProfileOrg.this, Login.class);
                 startActivity(intent);
@@ -112,7 +96,7 @@ public class ProfileOrg extends AppCompatActivity implements View.OnClickListene
             }
         });
 
-        // Adding click listener to Sign up button.
+        // Adding click listener to Settings button.
         settings.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -129,7 +113,7 @@ public class ProfileOrg extends AppCompatActivity implements View.OnClickListene
                 // Closing current activity.
                 finish();
                 // Opening the Main Activity .
-                Intent intent = new Intent(ProfileOrg.this, DiscoverPage.class);
+                Intent intent = new Intent(ProfileOrg.this, DiscoverPageOrg.class);
                 startActivity(intent);
 
             }
@@ -140,74 +124,11 @@ public class ProfileOrg extends AppCompatActivity implements View.OnClickListene
                 // Closing current activity.
                 finish();
                 // Opening the Main Activity .
-                Intent intent = new Intent(ProfileOrg.this, q1.class);
+                Intent intent = new Intent(ProfileOrg.this, nq1.class);
                 startActivity(intent);
 
             }
         });
-    }
-
-
-    public void displayUpdates(){
-        FirebaseUser user = mAuth.getCurrentUser();
-        getInfo();
-        userEmail.setText(user.getEmail());
-
-        FirebaseUser fuser = mAuth.getCurrentUser();
-        if (fuser != null) {
-            users.child(fuser.getUid()).addValueEventListener(new ValueEventListener() {
-                @Override
-                public void onDataChange(DataSnapshot dataSnapshot) {
-                    if (dataSnapshot != null) {
-                        //User user= dataSnapshot.getValue(User.class);
-                        User user1 = dataSnapshot.getValue(User.class);
-                        if (user1 != null) {
-                            orgNameView.setText(user1.orgName);
-                            aboutView.setText(user1.about);
-                        }
-                    }
-                }
-
-                @Override
-                public void onCancelled(DatabaseError firebaseError) {
-
-                }
-            });
-        }
-    }
-
-
-    public void getInfo(){
-        FirebaseUser user = mAuth.getCurrentUser();
-        users.child(user.getUid()).addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                if(dataSnapshot!=null){
-                    //User user= dataSnapshot.getValue(User.class);
-                    User user1 = dataSnapshot.getValue(User.class);
-                    if(user1 != null) {
-                        String category = user1.category;
-                        String orgName = user1.orgName;
-                        setCat(category);
-                        setOrgName(orgName);
-                    }
-                }
-            }
-            @Override
-            public void onCancelled(DatabaseError firebaseError) {
-
-            }
-        });
-    }
-
-    public void setCat(String category){
-        cat = 0;
-    }
-
-    public void setOrgName(String name) {
-        FirebaseUser user = mAuth.getCurrentUser();
-        orgName = user.getDisplayName();
-        //orgName = name;
     }
 
     public void onClick(View view) {
@@ -221,16 +142,38 @@ public class ProfileOrg extends AppCompatActivity implements View.OnClickListene
             startActivity(new Intent(this, Login.class));
         }
         if(view == settings){
+
             //closing activity
             finish();
             //starting login activity
             startActivity(new Intent(this, SettingsOrg.class));
         }
         if(view == discovery){
+
             //closing activity
             finish();
             //starting login activity
-            startActivity(new Intent(this, DiscoverPage.class));
+            startActivity(new Intent(this, DiscoverPageOrg.class));
         }
+    }
+
+    public void displayUpdates(FirebaseUser u){
+        user = mAuth.getCurrentUser();
+        userEmail.setText(u.getEmail());
+        ValueEventListener eventListener = new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                User user1 = dataSnapshot.getValue(User.class);
+                if (user1 == null) {
+                    Toast.makeText(ProfileOrg.this, "User is unexpectedly null.", Toast.LENGTH_LONG).show();
+                } else {
+                    aboutView.setText(user1.about);
+                    name.setText(user1.orgName);
+                }
+            }
+            @Override
+            public void onCancelled(DatabaseError firebaseError) {}
+        };
+        users.child("organizations").child(u.getUid()).addListenerForSingleValueEvent(eventListener);
     }
 }

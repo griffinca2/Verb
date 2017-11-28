@@ -51,6 +51,7 @@ public class SettingsVol extends AppCompatActivity implements View.OnClickListen
     private String lnameHolder;
     private String nameHolder;
     private String emailHolder;
+    private String bday;
 
     private ProgressDialog progressDialog;
 
@@ -61,7 +62,7 @@ public class SettingsVol extends AppCompatActivity implements View.OnClickListen
     private Uri imageUri2;
     private StorageReference store;
 
-    private int cat;
+    FirebaseUser user;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -102,7 +103,7 @@ public class SettingsVol extends AppCompatActivity implements View.OnClickListen
 
         //getting current user
         FirebaseUser user = mAuth.getCurrentUser();
-        database = FirebaseDatabase.getInstance().getReference().child("user");
+        database = FirebaseDatabase.getInstance().getReference();
         users = database.child("users");
 
         //Display Updated fields
@@ -115,6 +116,7 @@ public class SettingsVol extends AppCompatActivity implements View.OnClickListen
                 //Update the user profile
                 changeEmail();
                 changeName();
+                changeBirthday();
                 // Finishing current User Profile activity.
                 finish();
                 //Update user info and redirect to user profile
@@ -185,7 +187,7 @@ public class SettingsVol extends AppCompatActivity implements View.OnClickListen
 
     public void changeEmail(){
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-        Toast.makeText(SettingsVol.this, email.getText().toString().trim(), Toast.LENGTH_LONG).show();
+        //Toast.makeText(SettingsVol.this, email.getText().toString().trim(), Toast.LENGTH_LONG).show();
         //store the strings from email and name into variables
         emailHolder = email.getText().toString().trim();
         if(user != null) {
@@ -193,7 +195,7 @@ public class SettingsVol extends AppCompatActivity implements View.OnClickListen
                 @Override
                 public void onComplete(@NonNull Task<Void> task) {
                     if (task.isSuccessful()) {
-                        Toast.makeText(SettingsVol.this, "Email updated succesfully", Toast.LENGTH_LONG).show();
+                       // Toast.makeText(SettingsVol.this, "Email updated succesfully", Toast.LENGTH_LONG).show();
                     }
                 }
             });
@@ -220,12 +222,23 @@ public class SettingsVol extends AppCompatActivity implements View.OnClickListen
         Uri photoUrl = user.getPhotoUrl();
     }
 
+    public void changeBirthday(){
+        //update the user info
+        FirebaseUser user = mAuth.getCurrentUser();
+        //store the strings from email and name into variables
+        bday = birthday.getText().toString().trim();
+
+        users.child("volunteers").child(user.getUid()).child("birthday").setValue(bday);
+    }
+
     public void onClick(View view) {
         //if logout is pressed
         if(view == submit){
             changeName();
             changeEmail();
+            changeBirthday();
             updatePic();
+            displayUpdates();
             //closing activity
             finish();
             //starting login activity
@@ -243,65 +256,27 @@ public class SettingsVol extends AppCompatActivity implements View.OnClickListen
             startActivity(new Intent(this, ProfileOrg.class));
         }
     }
-    public void getInfo() {
-        FirebaseUser fuser = mAuth.getCurrentUser();
-        if (fuser != null) {
-            users.child(fuser.getUid()).addValueEventListener(new ValueEventListener() {
-                @Override
-                public void onDataChange(DataSnapshot dataSnapshot) {
-                    if (dataSnapshot != null) {
-                        //User user= dataSnapshot.getValue(User.class);
-                        User user1 = dataSnapshot.getValue(User.class);
-                        if (user1 != null) {
-                            String category = user1.category;
-                            String firstname = user1.firstName;
-                            String lastname = user1.lastName;
-                            String a = user1.about;
-                            //Toast.makeText(SettingsOrg.this, "Category" + category, Toast.LENGTH_LONG).show();
-                            setCat();
-                            getName(firstname, lastname);
-                        }
-                    }
-                }
-
-                @Override
-                public void onCancelled(DatabaseError firebaseError) {
-
-                }
-            });
-        }
-    }
 
     public void displayUpdates(){
-        FirebaseUser user = mAuth.getCurrentUser();
-        getInfo();
-        email.setText(user.getEmail());
-
-        FirebaseUser fuser = mAuth.getCurrentUser();
-        if (fuser != null) {
-            users.child(fuser.getUid()).addValueEventListener(new ValueEventListener() {
-                @Override
-                public void onDataChange(DataSnapshot dataSnapshot) {
-                    if (dataSnapshot != null) {
-                        User user1 = dataSnapshot.getValue(User.class);
-                        if (user1 != null) {
-                            fname.setText(user1.firstName);
-                            fname.setText(user1.lastName);
-                        }
-                    }
+        user = mAuth.getCurrentUser();
+        //email.setText(user.getEmail());
+        ValueEventListener eventListener = new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                User user1 = dataSnapshot.getValue(User.class);
+                if (user1 == null) {
+                    Toast.makeText(SettingsVol.this, "User is unexpectedly null.", Toast.LENGTH_LONG).show();
+                } else {
+                    fname.setText(user1.firstName);
+                    lname.setText(user1.lastName);
+                    birthday.setText(user1.birthday);
+                    email.setText(user1.email);
                 }
-                @Override
-                public void onCancelled(DatabaseError firebaseError) {}
-            });
-        }
-    }
+            }
+            @Override
+            public void onCancelled(DatabaseError firebaseError) {}
+        };
+        users.child("volunteers").child(user.getUid()).addListenerForSingleValueEvent(eventListener);
 
-    public void setCat(){
-        cat = 1;
-    }
-
-    public String getName(String firstname, String lastname) {
-        return (firstname + lastname);
     }
 }
-
