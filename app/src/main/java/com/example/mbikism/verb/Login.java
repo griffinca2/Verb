@@ -68,7 +68,7 @@ public class Login extends AppCompatActivity{
 
         //Reference to database
         database = FirebaseDatabase.getInstance().getReference();
-        users= database.child("users");
+        users = database.child("users");
 
 
         //if the objects getcurrentuser method is not null
@@ -79,7 +79,39 @@ public class Login extends AppCompatActivity{
             //Oringial code.....
             finish();
             //opening profile activity
-            startActivity(new Intent(getApplicationContext(), ProfileOrg.class));
+
+            FirebaseUser u = mAuth.getCurrentUser();
+            if(u != null) {
+                //user = mAuth.getCurrentUser();
+                ValueEventListener eventListener = new ValueEventListener() {
+                    @Override
+                    public void onDataChange(DataSnapshot dataSnapshot) {
+                        User user1 = dataSnapshot.getValue(User.class);
+                       // String myParentNode = dataSnapshot.getKey();
+                        //Toast.makeText(Login.this, myParentNode, Toast.LENGTH_LONG).show();
+                        if (user1 == null) {
+                            Toast.makeText(Login.this, "User is unexpectedly null.", Toast.LENGTH_LONG).show();
+                        } else {
+                            if(user1.category.equals("Volunteer")){
+                                Intent intent = new Intent(Login.this, ProfileVol.class);
+                                startActivity(intent);
+                            }
+                            else{
+                                Intent intent = new Intent(Login.this, ProfileOrg.class);
+                                startActivity(intent);
+                            }
+                        }
+                    }
+
+                    @Override
+                    public void onCancelled(DatabaseError firebaseError) {
+                    }
+                };
+                users.child(u.getUid()).addListenerForSingleValueEvent(eventListener);
+            }
+
+
+            //startActivity(new Intent(getApplicationContext(), ProfileOrg.class));
         }
 
         // Adding click listener to login button.
@@ -137,7 +169,7 @@ public class Login extends AppCompatActivity{
     }
 
     // Creating login function.
-    public void LoginFunction() {
+    /**public void LoginFunction() {
         // Setting up message in progressDialog
         progressDialog.setMessage("Please Wait");
 
@@ -157,6 +189,60 @@ public class Login extends AppCompatActivity{
                             FirebaseUser currUser = mAuth.getCurrentUser();
                             Intent intent = new Intent(Login.this, ProfileVol.class);
                             startActivity(intent);
+                        }
+                        else{
+                            Toast.makeText(Login.this, "Authentication failed.", Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                });
+    }**/
+
+    public void LoginFunction() {
+        // Setting up message in progressDialog
+        progressDialog.setMessage("Please Wait");
+
+        // Showing progressDialog.
+        progressDialog.show();
+
+        // Calling  signInWithEmailAndPassword function with firebase object and passing EmailHolder and PasswordHolder inside it.
+        mAuth.signInWithEmailAndPassword(emailHolder, passwordHolder)
+                .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
+                    @Override
+                    public void onComplete(@NonNull Task<AuthResult> task) {
+                        // If task done Successful.
+                        if (task.isSuccessful()) {
+                            // Hiding the progress dialog.
+                            progressDialog.dismiss();
+                            // Closing the current Login Activity.
+                            FirebaseUser u = mAuth.getCurrentUser();
+                            if(u != null) {
+                                //user = mAuth.getCurrentUser();
+                                ValueEventListener eventListener = new ValueEventListener() {
+                                    @Override
+                                    public void onDataChange(DataSnapshot dataSnapshot) {
+                                        User user1 = dataSnapshot.getValue(User.class);
+                                        //String myParentNode = dataSnapshot.getKey();
+                                        //Toast.makeText(Login.this, myParentNode, Toast.LENGTH_LONG).show();
+                                        if (user1 == null) {
+                                            Toast.makeText(Login.this, "User is unexpectedly null.", Toast.LENGTH_LONG).show();
+                                        } else {
+                                            if(user1.category.equals("Volunteer")){
+                                                Intent intent = new Intent(Login.this, ProfileVol.class);
+                                                startActivity(intent);
+                                            }
+                                            else{
+                                                Intent intent = new Intent(Login.this, ProfileOrg.class);
+                                                startActivity(intent);
+                                            }
+                                        }
+                                    }
+
+                                    @Override
+                                    public void onCancelled(DatabaseError firebaseError) {
+                                    }
+                                };
+                                users.child(u.getUid()).addListenerForSingleValueEvent(eventListener);
+                            }
                         }
                         else{
                             Toast.makeText(Login.this, "Authentication failed.", Toast.LENGTH_SHORT).show();

@@ -41,7 +41,7 @@
         <activity android:name=".DiscoverPageOrg" />
         <activity android:name=".Results"/>
         <activity android:name=".nq1" />
-        <activity android:name=".np2" />
+        <activity android:name=".nq2" />
         <activity android:name=".nq3" />
         <activity android:name=".nq4" />
         <activity android:name=".nq5" />

@@ -92,7 +92,7 @@ public class Results extends AppCompatActivity{
                     if (dataSnapshot != null) {
                         User user1 = dataSnapshot.getValue(User.class);
                         if (user1 != null) {
-                            score.setText(user1.quizScore);
+                            score.setText(user1.quizScore + "");
                         }
                     }
                 }

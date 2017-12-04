@@ -177,7 +177,7 @@ public class SettingsOrg extends AppCompatActivity implements View.OnClickListen
         UserProfileChangeRequest profileUpdates = new UserProfileChangeRequest.Builder()
                 .setDisplayName(nameHolder).build();
         user.updateProfile(profileUpdates);
-        users.child("organizations").child(user.getUid()).child("orgName").setValue(nameHolder);
+        users.child(user.getUid()).child("orgName").setValue(nameHolder);
     }
 
     public void changeEmail(){
@@ -201,7 +201,7 @@ public class SettingsOrg extends AppCompatActivity implements View.OnClickListen
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
        // Toast.makeText(SettingsOrg.this, aboutHolder, Toast.LENGTH_LONG).show();
         aboutHolder = aboutView.getText().toString().trim();
-        users.child("organizations").child(user.getUid()).child("about").setValue(aboutHolder);
+        users.child(user.getUid()).child("about").setValue(aboutHolder);
     }
 
     @Override
@@ -266,7 +266,7 @@ public class SettingsOrg extends AppCompatActivity implements View.OnClickListen
             @Override
             public void onCancelled(DatabaseError firebaseError) {}
         };
-        users.child("organizations").child(user.getUid()).addListenerForSingleValueEvent(eventListener);
+        users.child(user.getUid()).addListenerForSingleValueEvent(eventListener);
 
     }
 }

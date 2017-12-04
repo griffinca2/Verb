@@ -99,7 +99,7 @@ public class q10 extends AppCompatActivity {
 
     public void updateQuizCount(){
         if(user != null) {
-            users.child("volunteers").child(user.getUid()).child("quizScore").setValue(Count.allCount);
+            users.child(user.getUid()).child("quizScore").setValue(Count.allCount);
             Intent intent = new Intent(q10.this, ViewResultsActivity.class);
             startActivity(intent);
         }

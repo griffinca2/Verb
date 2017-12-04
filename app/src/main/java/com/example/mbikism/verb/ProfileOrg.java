@@ -174,6 +174,7 @@ public class ProfileOrg extends AppCompatActivity implements View.OnClickListene
             @Override
             public void onCancelled(DatabaseError firebaseError) {}
         };
-        users.child("organizations").child(u.getUid()).addListenerForSingleValueEvent(eventListener);
+        //users.child("organizations").child(u.getUid()).addListenerForSingleValueEvent(eventListener);
+        users.child(u.getUid()).addListenerForSingleValueEvent(eventListener);
     }
 }

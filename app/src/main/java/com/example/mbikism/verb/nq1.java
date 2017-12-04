@@ -23,7 +23,7 @@ public class nq1 extends AppCompatActivity {
             @Override
             public void onClick(View arg0) {
                 Count.npCount = Count.npCount + 1;
-                Intent intent = new Intent(nq1.this, np2.class);
+                Intent intent = new Intent(nq1.this, nq2.class);
                 startActivity(intent);
             }
         });
@@ -32,7 +32,7 @@ public class nq1 extends AppCompatActivity {
             @Override
             public void onClick(View arg0) {
                 Count.npCount = Count.npCount + 4;
-                Intent intent = new Intent(nq1.this, np2.class);
+                Intent intent = new Intent(nq1.this, nq2.class);
                 startActivity(intent);
             }
         });
@@ -41,7 +41,7 @@ public class nq1 extends AppCompatActivity {
             @Override
             public void onClick(View arg0) {
                 Count.npCount = Count.npCount + 2;
-                Intent intent = new Intent(nq1.this, np2.class);
+                Intent intent = new Intent(nq1.this, nq2.class);
                 startActivity(intent);
             }
         });
@@ -51,7 +51,7 @@ public class nq1 extends AppCompatActivity {
             @Override
             public void onClick(View arg0) {
                 Count.npCount = Count.npCount + 3;
-                Intent intent = new Intent(nq1.this, np2.class);
+                Intent intent = new Intent(nq1.this, nq2.class);
                 startActivity(intent);
             }
         });
@@ -60,7 +60,7 @@ public class nq1 extends AppCompatActivity {
             @Override
             public void onClick(View arg0) {
                 Count.npCount = Count.npCount + 5;
-                Intent intent = new Intent(nq1.this, np2.class);
+                Intent intent = new Intent(nq1.this, nq2.class);
                 startActivity(intent);
             }
         });

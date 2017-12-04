@@ -177,7 +177,8 @@ public class ProfileVol extends AppCompatActivity implements View.OnClickListene
                 public void onCancelled(DatabaseError firebaseError) {
                 }
             };
-            users.child("volunteers").child(u.getUid()).addListenerForSingleValueEvent(eventListener);
+            //users.child("volunteers").child(u.getUid()).addListenerForSingleValueEvent(eventListener);
+            users.child(u.getUid()).addListenerForSingleValueEvent(eventListener);
         }
 
     }

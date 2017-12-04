@@ -180,8 +180,8 @@ public class SettingsVol extends AppCompatActivity implements View.OnClickListen
                 .setDisplayName(nameHolder).build();
         user.updateProfile(profileUpdates);
 
-        users.child("volunteers").child(user.getUid()).child("firstName").setValue(fnameHolder);
-        users.child("volunteers").child(user.getUid()).child("lastName").setValue(lnameHolder);
+        users.child(user.getUid()).child("firstName").setValue(fnameHolder);
+        users.child(user.getUid()).child("lastName").setValue(lnameHolder);
         //Toast.makeText(SettingsVol.this, user.getDisplayName(), Toast.LENGTH_LONG).show();
     }
 
@@ -228,7 +228,7 @@ public class SettingsVol extends AppCompatActivity implements View.OnClickListen
         //store the strings from email and name into variables
         bday = birthday.getText().toString().trim();
 
-        users.child("volunteers").child(user.getUid()).child("birthday").setValue(bday);
+        users.child(user.getUid()).child("birthday").setValue(bday);
     }
 
     public void onClick(View view) {
@@ -247,13 +247,13 @@ public class SettingsVol extends AppCompatActivity implements View.OnClickListen
         else if(view == back){
             finish();
             //starting login activity
-            startActivity(new Intent(this, ProfileOrg.class));
+            startActivity(new Intent(this, ProfileVol.class));
         }
         else if(view == changePic){
             updatePic();
             finish();
             //starting login activity
-            startActivity(new Intent(this, ProfileOrg.class));
+            startActivity(new Intent(this, ProfileVol.class));
         }
     }
 
@@ -276,7 +276,6 @@ public class SettingsVol extends AppCompatActivity implements View.OnClickListen
             @Override
             public void onCancelled(DatabaseError firebaseError) {}
         };
-        users.child("volunteers").child(user.getUid()).addListenerForSingleValueEvent(eventListener);
-
+        users.child(user.getUid()).addListenerForSingleValueEvent(eventListener);
     }
 }

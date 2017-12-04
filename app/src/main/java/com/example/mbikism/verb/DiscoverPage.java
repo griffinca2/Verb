@@ -12,6 +12,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
+import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -32,28 +34,15 @@ public class DiscoverPage extends AppCompatActivity {
     private DatabaseReference users;
     //view objects
     private Button userProfile;
-    CoordinatorLayout cl;
+    LinearLayout ll;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_discover_page);
-        shownps = (TextView) findViewById(R.id.showNP);
+        //shownps = (TextView) findViewById(R.id.showNP);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-
-        //setSupportActionBar(toolbar);
-
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
-            }
-        });
-
-
 
         //initializing firebase authentication object
         mAuth = FirebaseAuth.getInstance();
@@ -61,11 +50,10 @@ public class DiscoverPage extends AppCompatActivity {
         database = FirebaseDatabase.getInstance().getReference();
         users = database.child("users");
 
-
         //initializing views
         userProfile = (Button) findViewById(R.id.buttonProfile);
 
-        cl = (CoordinatorLayout)findViewById(R.id.cl);
+        ll = (LinearLayout)findViewById(R.id.ll2);
 
         //if the user is not logged in
         //that means current user will return null
@@ -100,7 +88,7 @@ public class DiscoverPage extends AppCompatActivity {
     }
 
     public void getScore(){
-        shownps.setText("TestOrg\n" + "TestOrg2\n");
+        //shownps.setText("TestOrg\n" + "TestOrg2\n");
 
         FirebaseUser u = mAuth.getCurrentUser();
         if(u != null) {
@@ -113,7 +101,7 @@ public class DiscoverPage extends AppCompatActivity {
                         Toast.makeText(DiscoverPage.this, "User is unexpectedly null.", Toast.LENGTH_LONG).show();
                     } else {
                         int volQuizScore = user1.quizScore;
-                        //compare(volQuizScore);
+                        compare(volQuizScore);
                     }
                 }
 
@@ -121,12 +109,12 @@ public class DiscoverPage extends AppCompatActivity {
                 public void onCancelled(DatabaseError firebaseError) {
                 }
             };
-            users.child("volunteers").child(u.getUid()).addListenerForSingleValueEvent(eventListener);
+            users.child(u.getUid()).addListenerForSingleValueEvent(eventListener);
         }
 
     }
     public void compare(final int volScore) {
-        FirebaseDatabase.getInstance().getReference().child("users").child("organizations")
+        FirebaseDatabase.getInstance().getReference().child("users")
                 .addListenerForSingleValueEvent(new ValueEventListener() {
                     @Override
                     public void onDataChange(DataSnapshot dataSnapshot) {
@@ -134,15 +122,17 @@ public class DiscoverPage extends AppCompatActivity {
                         int i = 0;
                         for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
                             User user = snapshot.getValue(User.class);
-                            int npScore = user.quizScore;
-                            //Toast.makeText(DiscoverPage.this, npScore + "", Toast.LENGTH_LONG).show();
                             int max = volScore + 5;
                             int min = volScore - 5;
-                            int s = npScore * 2;
-                            i += 1;
-                            if(s <= max && s >= min){
-                                String orgName = user.orgName;
-                                //createTextView(i, orgName);
+                            //createTextView(1, "OrgName" + '\n');
+                            if(user.category.equals("Organization")) {
+                                int npScore = user.quizScore;
+                                int s = npScore * 2;
+                                i += 1;
+                                if (s <= max && s >= min) {
+                                    String orgName = user.orgName + '\n';
+                                    createTextView(i, orgName);
+                                }
                             }
                         }
                     }
@@ -154,10 +144,16 @@ public class DiscoverPage extends AppCompatActivity {
 
     public void createTextView(int i, String orgName){
         TextView tv = new TextView(this);
-        tv.setGravity(Gravity.CENTER | Gravity.BOTTOM);
+        tv.setGravity(Gravity.CENTER | Gravity.TOP);
         tv.setText(orgName);
         tv.setId(i + 5);
-        cl.addView(tv);
+        ll.addView(tv);
+
+        /**Button b = new Button(this);
+        tv.setGravity(Gravity.CENTER | Gravity.TOP);
+        tv.setText(orgName);
+        tv.setId(i + 5);
+        ll.addView(tv);**/
     }
 
     public void onClick(View view) {
@@ -168,6 +164,5 @@ public class DiscoverPage extends AppCompatActivity {
             //starting login activity
             startActivity(new Intent(this, ProfileVol.class));
         }
-
     }
 }

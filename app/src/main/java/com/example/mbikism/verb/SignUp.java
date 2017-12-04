@@ -69,8 +69,6 @@ public class SignUp extends AppCompatActivity{
         //Database references
         database = FirebaseDatabase.getInstance().getReference();
         users = database.child("users");
-        volunteers = users.child("volunteers");
-        organizations = users.child("organizations");
 
 
         //if the objects getcurrentuser method is not null
@@ -215,11 +213,12 @@ public class SignUp extends AppCompatActivity{
         //Create user based on whether they are a volunteer or organization.
         if(category.equals("Volunteer")) {
             User newUser = new User(uid, fName, lName, category, email, birthday, 0);
-            database.child("users").child("volunteers").child(uid).setValue(newUser);
+            database.child("users").child(uid).setValue(newUser);
         }
         else if(category.equals("Organization")) {
             User newUser = new User(uid, fName, lName, category, email, orgName, info, 0);
-            database.child("users").child("organizations").child(uid).setValue(newUser);
+            //database.child("users").child("organizations").child(uid).setValue(newUser);
+            database.child("users").child(uid).setValue(newUser);
         }
     }
 }
