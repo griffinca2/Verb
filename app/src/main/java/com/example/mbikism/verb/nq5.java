@@ -101,7 +101,7 @@ public class nq5 extends AppCompatActivity {
     public void updateQuizCount(){
         if(user != null) {
             users.child(user.getUid()).child("quizScore").setValue(Count.npCount);
-            Intent intent = new Intent(nq5.this, ProfileOrg.class);
+            Intent intent = new Intent(nq5.this, ViewResultsActivityOrg.class);
             startActivity(intent);
         }
     }

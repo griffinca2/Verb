@@ -38,6 +38,8 @@
         <activity android:name=".q10" />
         <activity android:name=".DiscoverPage" />
         <activity android:name=".ViewResultsActivity" />
+        <activity android:name=".ViewResultsActivityOrg" />
+        <activity android:name=".ResultsOrg" />
         <activity android:name=".DiscoverPageOrg" />
         <activity android:name=".Results"/>
         <activity android:name=".nq1" />

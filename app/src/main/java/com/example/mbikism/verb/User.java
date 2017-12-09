@@ -10,6 +10,7 @@ public class User {
     public String orgName;
     public String about;
     public int quizScore;
+    //public String pic;
 
 
     public User() {
@@ -24,9 +25,10 @@ public class User {
         this.email = email;
         this.birthday = birthday;
         this.quizScore = quizScore;
+        //.pic = pic;
     }
 
-    public User (String userID, String firstName, String lastName, String category, String email, String orgName, String about, int quizScore) {
+    public User (String userID, String firstName, String lastName, String category, String email, String orgName, String about, int quizScor) {
         this.userID = userID;
         this.orgName = orgName;
         this. category = category;
@@ -35,6 +37,7 @@ public class User {
         this.quizScore = quizScore;
         this.firstName = firstName;
         this.lastName = lastName;
+        //this.pic = pic;
     }
 }
 

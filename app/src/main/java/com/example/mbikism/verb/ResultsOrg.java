@@ -19,7 +19,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
-public class Results extends AppCompatActivity{
+public class ResultsOrg extends AppCompatActivity{
     private Button profile;
     private Button discover;
     private TextView score;
@@ -33,7 +33,7 @@ public class Results extends AppCompatActivity{
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_results);
+        setContentView(R.layout.results_org);
 
         //initializing firebase authentication object
         mAuth = FirebaseAuth.getInstance();
@@ -53,7 +53,7 @@ public class Results extends AppCompatActivity{
             startActivity(new Intent(this, Login.class));
 
             // Showing toast message.
-            Toast.makeText(Results.this, "Please Log in to continue", Toast.LENGTH_LONG).show();
+            Toast.makeText(ResultsOrg.this, "Please Log in to continue", Toast.LENGTH_LONG).show();
         }
 
         score.setText(String.valueOf(Count.allCount));
@@ -67,7 +67,7 @@ public class Results extends AppCompatActivity{
                 // Closing current activity.
                 finish();
                 // Opening the Main Activity .
-                Intent intent = new Intent(Results.this, ProfileVol.class);
+                Intent intent = new Intent(ResultsOrg.this, ProfileOrg.class);
                 startActivity(intent);
 
             }
@@ -78,7 +78,7 @@ public class Results extends AppCompatActivity{
                 // Closing current activity.
                 finish();
                 // Opening the Main Activity .
-                Intent intent = new Intent(Results.this, DiscoverPage.class);
+                Intent intent = new Intent(ResultsOrg.this, DiscoverPageOrg.class);
                 startActivity(intent);
 
             }
@@ -96,19 +96,19 @@ public class Results extends AppCompatActivity{
                         if (user1 != null) {
                             score.setText(user1.quizScore + "");
 
-                            if(user1.quizScore > 40 && user1.quizScore  <=50){
+                            if(user1.quizScore > 20 && user1.quizScore  <=25){
                                 np.setText("Other");
                             }
-                            if(user1.quizScore > 30 && user1.quizScore  <= 40){
-                                np.setText("Homeless");
-                            }
-                            if(user1.quizScore > 20 && user1.quizScore  <= 30){
+                            if(user1.quizScore > 15 && user1.quizScore  <= 20){
                                 np.setText("Youth");
                             }
-                            if(user1.quizScore > 10 && user1.quizScore  <= 20){
+                            if(user1.quizScore > 10 && user1.quizScore  <= 15){
+                                np.setText("Homeless");
+                            }
+                            if(user1.quizScore > 5 && user1.quizScore  <= 10){
                                 np.setText("Environment");
                             }
-                            if(user1.quizScore >= 0 && user1.quizScore  <= 10){
+                            if(user1.quizScore >= 0 && user1.quizScore  <= 5){
                                 np.setText("Animals");
                             }
                         }

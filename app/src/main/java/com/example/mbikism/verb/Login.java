@@ -245,6 +245,7 @@ public class Login extends AppCompatActivity{
                             }
                         }
                         else{
+                            progressDialog.dismiss();
                             Toast.makeText(Login.this, "Authentication failed.", Toast.LENGTH_SHORT).show();
                         }
                     }

@@ -43,7 +43,7 @@ public class q1 extends AppCompatActivity {
         database = FirebaseDatabase.getInstance().getReference();
         users = database.child("users");
 
-        users.child("volunteers").child(user.getUid()).child("quizScore").setValue(0);
+        users.child(user.getUid()).child("quizScore").setValue(0);
 
         addListenerOnButton();
     }

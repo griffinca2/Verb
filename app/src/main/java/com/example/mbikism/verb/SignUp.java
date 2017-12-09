@@ -209,6 +209,7 @@ public class SignUp extends AppCompatActivity{
         String uid = user.getUid();
         String info = " ";
         String orgName = " ";
+        //String pic = "";
 
         //Create user based on whether they are a volunteer or organization.
         if(category.equals("Volunteer")) {

@@ -42,7 +42,7 @@ public class DiscoverPage extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_discover_page);
         //shownps = (TextView) findViewById(R.id.showNP);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        //Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
 
         //initializing firebase authentication object
         mAuth = FirebaseAuth.getInstance();
@@ -125,13 +125,15 @@ public class DiscoverPage extends AppCompatActivity {
                             int max = volScore + 5;
                             int min = volScore - 5;
                             //createTextView(1, "OrgName" + '\n');
-                            if(user.category.equals("Organization")) {
-                                int npScore = user.quizScore;
-                                int s = npScore * 2;
-                                i += 1;
-                                if (s <= max && s >= min) {
-                                    String orgName = user.orgName + '\n';
-                                    createTextView(i, orgName);
+                            if(user.category != null) {
+                                if (user.category.equals("Organization")) {
+                                    int npScore = user.quizScore;
+                                    int s = npScore * 2;
+                                    i += 1;
+                                    if (s <= max && s >= min) {
+                                        String orgName = user.orgName + '\n';
+                                        createTextView(i, orgName);
+                                    }
                                 }
                             }
                         }
@@ -148,12 +150,6 @@ public class DiscoverPage extends AppCompatActivity {
         tv.setText(orgName);
         tv.setId(i + 5);
         ll.addView(tv);
-
-        /**Button b = new Button(this);
-        tv.setGravity(Gravity.CENTER | Gravity.TOP);
-        tv.setText(orgName);
-        tv.setId(i + 5);
-        ll.addView(tv);**/
     }
 
     public void onClick(View view) {
